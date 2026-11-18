@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión - Snoopy's Library</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <h1>Snoopy's Library</h1>
+        <h2>Iniciar sesión</h2>
+        <p>Ingresa tu nombre de usuario y contraseña.</p>
+
+        <form id="formularioSesion">
+            <label for="usuario">Nombre de usuario:</label>
+            <input type="text" id="usuario" name="usuario"
+                   required minlength="3" maxlength="30">
+
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena"
+                   required minlength="6" maxlength="12"
+                   pattern="[A-Za-z0-9]+"
+                   title="Usa entre 6 y 12 caracteres, solo letras y números.">
+
+            <button type="submit">Iniciar sesión</button>
+            <button type="reset" class="limpiar">Limpiar</button>
+        </form>
+
+        <p id="mensaje" role="status" aria-live="polite"></p>
+
+        <a href="Ej4.html">Volver a la biblioteca</a>
+    </div>
+
+    <script>
+        const formulario = document.getElementById("formularioSesion");
+        const usuario = document.getElementById("usuario");
+        const contrasena = document.getElementById("contrasena");
+        const mensaje = document.getElementById("mensaje");
+
+        formulario.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const nombre = usuario.value.trim();
+            const clave = contrasena.value;
+
+            if (nombre.length < 3 || nombre.length > 30) {
+                mensaje.textContent =
+                    "El usuario debe tener entre 3 y 30 caracteres.";
+                mensaje.style.color = "#D93645";
+                return;
+            }
+
+            if (!/^[A-Za-z0-9]{6,12}$/.test(clave)) {
+                mensaje.textContent =
+                    "Usa entre 6 y 12 caracteres, solo letras y números.";
+                mensaje.style.color = "#D93645";
+                return;
+            }
+
+            sessionStorage.setItem("usuarioBiblioteca", nombre);
+
+            mensaje.textContent =
+                "¡Bienvenido/a, " + nombre + "! Sesión iniciada.";
+            mensaje.style.color = "#1769AA";
+
+            setTimeout(function() {
+                window.location.href = "Ej4.html#contacto";
+            }, 1000);
+        });
+
+        formulario.addEventListener("reset", function() {
+            mensaje.textContent = "";
+        });
+    </script>
+
+</body>
+</html>
